@@ -36,7 +36,7 @@ VOLUME /var/lib/maven
 # ------------
 
 RUN echo "# Installing Nodejs" && \
-    curl -sL https://deb.nodesource.com/setup_6.x | bash - && \
+    curl -sL https://deb.nodesource.com/setup_8.x | bash - && \
     apt-get install nodejs build-essential -y && \
     npm set strict-ssl false && \
     npm install -g npm@latest && \
@@ -48,13 +48,6 @@ RUN echo "# Installing Nodejs" && \
 # Timezone
 # ---------
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
-
-# Git-ratchet
-# ---------
-RUN wget --no-verbose -O /tmp/git-ratchet \
-    https://github.com/iangrunert/git-ratchet/releases/download/v0.3.2/linux_amd64_git-ratchet && \
-    cp /tmp/git-ratchet /usr/bin && \
-    chmod 700 /usr/bin/git-ratchet
 
 # gcloud
 # --------
