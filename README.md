@@ -3,7 +3,7 @@
 
 ## Dockerized Java 8, Maven 3.3.9, and NodeJS Enviroment for full stack Java web app builds
 
-An Ubuntu 14.04 docker container with Oracle JDK 8, Maven 3.3.9, and the latest stable version of NodeJS
+An Ubuntu 14.04 docker container with Oracle JDK 8, Maven 3.3.9, Gcloud, and the latest stable version of NodeJS
 
 Usage
 
