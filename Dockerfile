@@ -41,10 +41,8 @@ RUN echo "# Installing Nodejs" && \
     npm set strict-ssl false && \
     npm install -g npm@latest && \
     npm install -g bower grunt grunt-cli && \
-    npm cache clear -f && \
-    npm install -g n && \
-    n stable
-    
+    npm cache clear -f
+
 # Timezone
 # ---------
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
