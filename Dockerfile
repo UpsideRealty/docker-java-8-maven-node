@@ -1,21 +1,24 @@
-FROM ubuntu:14.04
-
-MAINTAINER NurtureCloud
+FROM ubuntu:20.04
 
 ENV MAVEN_VERSION 3.3.9
 
-RUN echo deb http://archive.ubuntu.com/ubuntu precise universe > /etc/apt/sources.list.d/universe.list
-RUN apt-get update && apt-get install -y wget git curl zip monit openssh-server git iptables ca-certificates daemon net-tools libfontconfig-dev
+ARG DEBIAN_FRONTEND=noninteractive
+
+RUN apt-get update && apt-get install -y wget git curl zip monit openssh-server git iptables ca-certificates daemon net-tools libfontconfig-dev build-essential libpq-dev libssl-dev openssl libffi-dev zlib1g-dev
+
+#Install Python 3.7
+RUN apt-get install -y python3-pip
+RUN apt-get install -y python3.7
 
 #Install Oracle JDK 8
 #--------------------
 RUN echo "# Installing Oracle JDK 8" && \
-    sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 3C72607B03AFA832 && \
-    sudo apt-get install -y software-properties-common debconf-utils && \
-    sudo add-apt-repository -y ppa:ts.sch.gr/ppa && \
-    sudo apt-get update && \
-    echo "oracle-java8-installer shared/accepted-oracle-license-v1-1 select true" | sudo debconf-set-selections && \
-    sudo apt-get install -y oracle-java8-installer
+    apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 3C72607B03AFA832 && \
+    apt-get install -y software-properties-common debconf-utils && \
+    add-apt-repository -y ppa:ts.sch.gr/ppa && \
+    apt-get update && \
+    echo "oracle-java8-installer shared/accepted-oracle-license-v1-1 select true" | debconf-set-selections && \
+    apt-get install -y oracle-java8-installer
 # Maven related
 # -------------
 ENV MAVEN_ROOT /var/lib/maven
@@ -65,6 +68,6 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 # gcloud
 # --------
 ENV CLOUD_SDK_REPO cloud-sdk-trusty
-RUN echo "deb http://packages.cloud.google.com/apt $CLOUD_SDK_REPO main" | sudo tee -a /etc/apt/sources.list.d/google-cloud-sdk.list && \
-    curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add - && \
-    sudo apt-get update && sudo apt-get install -y google-cloud-sdk
+RUN echo "deb http://packages.cloud.google.com/apt $CLOUD_SDK_REPO main" | tee -a /etc/apt/sources.list.d/google-cloud-sdk.list && \
+    curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add - && \
+    apt-get update && apt-get install -y google-cloud-sdk
